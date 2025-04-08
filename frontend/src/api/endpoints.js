@@ -17,3 +17,8 @@ export const deleteTask = async (id) => {
   const res = await axios.delete(`${SERVER_URL}/tasks/${id}/`);
   return res.data;
 };
+
+export const updateTask = async (id, values) => {
+  const res = await axios.patch(`${SERVER_URL}/tasks/${id}/`, values);
+  return res.data;
+};

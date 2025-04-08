@@ -1,25 +1,29 @@
-import {
-  Card,
-  CloseButton,
-  Editable,
-  IconButton,
-  Textarea,
-  useEditable,
-} from "@chakra-ui/react";
+import { Card, CloseButton, Editable, IconButton } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { deleteTaskAsync } from "../../redux/taskSlice";
+import { deleteTaskAsync, updateTaskAsync } from "../../redux/taskSlice";
 
 import { LuCheck, LuX } from "react-icons/lu";
+import { useState } from "react";
 
 const Task = ({ id, description }) => {
   const dispatch = useDispatch();
 
-  const input = useEditable({
-    defaultValue: description,
-  });
+  const [input, setInput] = useState(description);
 
   const handleRemoveTask = () => {
     dispatch(deleteTaskAsync(id));
+  };
+
+  const handleUpdateTask = () => {
+    if (input === "") {
+      setInput(description);
+      return;
+    }
+
+    if (input !== description) {
+      const values = { description: input };
+      dispatch(updateTaskAsync({ id, values }));
+    }
   };
 
   return (
@@ -48,14 +52,18 @@ const Task = ({ id, description }) => {
         alignItems="center"
       >
         <Card.Title textAlign="center">
-          <Editable.RootProvider value={input} placeholder="Click to edit">
+          <Editable.Root
+            value={input}
+            onValueChange={(e) => setInput(e.value)}
+            onValueCommit={handleUpdateTask}
+            submitMode="none"
+          >
             <Editable.Preview
               whiteSpace="normal"
               wordBreak="break-word"
               minW="0"
             />
-            <Editable.Input
-              as={Textarea}
+            <Editable.Textarea
               whiteSpace="normal"
               wordBreak="break-word"
               minW="0"
@@ -74,7 +82,7 @@ const Task = ({ id, description }) => {
                 </IconButton>
               </Editable.SubmitTrigger>
             </Editable.Control>
-          </Editable.RootProvider>
+          </Editable.Root>
         </Card.Title>
       </Card.Body>
     </Card.Root>

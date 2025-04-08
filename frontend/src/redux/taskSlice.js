@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createTask, deleteTask, fetchTasks } from "../api/endpoints";
+import {
+  createTask,
+  deleteTask,
+  fetchTasks,
+  updateTask,
+} from "../api/endpoints";
 
 export const fetchTasksAsync = createAsyncThunk(
   "tasks/fetchTasks",
@@ -22,6 +27,14 @@ export const deleteTaskAsync = createAsyncThunk(
   async (id) => {
     await deleteTask(id);
     return id;
+  },
+);
+
+export const updateTaskAsync = createAsyncThunk(
+  "tasks/updateTask",
+  async ({ id, values }) => {
+    const res = await updateTask(id, values);
+    return res;
   },
 );
 
@@ -74,6 +87,22 @@ const taskSlice = createSlice({
         state.tasks = state.tasks.filter((task) => task.id !== action.payload);
       })
       .addCase(deleteTaskAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // Handle updating tasks
+      .addCase(updateTaskAsync.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateTaskAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tasks = state.tasks.map((task) =>
+          task.id === action.payload.id ? action.payload : task,
+        );
+      })
+      .addCase(updateTaskAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
