@@ -2,19 +2,18 @@ import {
   Card,
   CloseButton,
   Editable,
-  Flex,
   IconButton,
   Textarea,
   useEditable,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { removeTask } from "../../taskSlice";
+import { removeTask } from "../../redux/taskSlice";
 
 import { LuCheck, LuX } from "react-icons/lu";
 
-const Task = ({ id, name }) => {
+const Task = ({ id, description }) => {
   const input = useEditable({
-    defaultValue: name,
+    defaultValue: description,
   });
 
   const dispatch = useDispatch();
