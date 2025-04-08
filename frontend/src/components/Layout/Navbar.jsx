@@ -1,15 +1,15 @@
-import { Button, Flex, Heading, HStack, Text } from "@chakra-ui/react";
+import { Flex, Heading, HStack } from "@chakra-ui/react";
 import React from "react";
 import { ColorModeButton, useColorModeValue } from "../ui/color-mode";
 
 const Navbar = () => {
   const bg = useColorModeValue("blue.500", "blue.800");
-
   return (
     <Flex
       w="100vw"
       h="100px"
       bg={bg}
+      color="white"
       justifyContent="center"
       alignItems="center"
     >
