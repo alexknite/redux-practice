@@ -1,5 +1,13 @@
+import MovieInput from "./components/MovieInput";
+import MovieList from "./components/MovieList";
+
 function App() {
-  return <>Hello World</>;
+  return (
+    <>
+      <MovieInput />
+      <MovieList />
+    </>
+  );
 }
 
 export default App;
