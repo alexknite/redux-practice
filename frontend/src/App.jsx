@@ -1,11 +1,14 @@
-import MovieInput from "./components/MovieInput";
-import MovieList from "./components/MovieList";
+import TaskInput from "./components/Task/TaskInput";
+import TaskList from "./components/Task/TaskList";
+import Layout from "./components/Layout/Layout";
 
 function App() {
   return (
     <>
-      <MovieInput />
-      <MovieList />
+      <Layout>
+        <TaskInput />
+        <TaskList />
+      </Layout>
     </>
   );
 }

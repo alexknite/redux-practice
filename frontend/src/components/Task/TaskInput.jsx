@@ -1,27 +1,27 @@
 import { Button, Flex, HStack, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { addMovie } from "../movieSlice";
+import { addTask } from "../../taskSlice";
 import { useDispatch } from "react-redux";
 
-const MovieInput = () => {
+const TaskInput = () => {
   const [input, setInput] = useState("");
 
   const dispatch = useDispatch();
 
-  const handleAddMovie = () => {
+  const handleAddTask = () => {
     if (input) {
-      dispatch(addMovie(input));
+      dispatch(addTask(input));
       setInput("");
     }
   };
   return (
-    <Flex>
-      <HStack>
+    <Flex w="100%" justifyContent="center" alignItems="center">
+      <HStack w="25%" mt="30px">
         <Input onChange={(e) => setInput(e.target.value)} value={input} />
-        <Button onClick={handleAddMovie}>Add Movie</Button>
+        <Button onClick={handleAddTask}>Add Task</Button>
       </HStack>
     </Flex>
   );
 };
 
-export default MovieInput;
+export default TaskInput;
