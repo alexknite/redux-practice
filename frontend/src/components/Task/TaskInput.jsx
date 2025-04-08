@@ -1,16 +1,16 @@
 import { Button, Flex, HStack, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { addTask } from "../../redux/taskSlice";
+import { createTaskAsync } from "../../redux/taskSlice";
 import { useDispatch } from "react-redux";
 
 const TaskInput = () => {
-  const [input, setInput] = useState("");
-
   const dispatch = useDispatch();
+
+  const [input, setInput] = useState("");
 
   const handleAddTask = () => {
     if (input) {
-      dispatch(addTask(input));
+      dispatch(createTaskAsync(input));
       setInput("");
     }
   };

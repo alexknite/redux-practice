@@ -5,3 +5,10 @@ export const fetchTasks = async () => {
   const res = await axios.get(`${SERVER_URL}/tasks/`);
   return res.data;
 };
+
+export const createTask = async (description) => {
+  const res = await axios.post(`${SERVER_URL}/tasks/`, {
+    description: description,
+  });
+  return res.data;
+};
