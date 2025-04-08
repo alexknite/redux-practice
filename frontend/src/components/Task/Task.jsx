@@ -9,10 +9,12 @@ const Task = ({ id, name }) => {
     dispatch(removeTask(id));
   };
   return (
-    <Card.Root width="500px" variant="elevated">
-      <Card.Body>
+    <Card.Root width="500px" height='100px' variant="elevated">
+      <Card.Body
+        justifyContent='center'
+        alignItems='center'
+      >
         <Card.Title
-          textAlign="center"
           onClick={handleRemoveTask}
           cursor="pointer"
         >

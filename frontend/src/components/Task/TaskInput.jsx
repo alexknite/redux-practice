@@ -16,9 +16,14 @@ const TaskInput = () => {
   };
   return (
     <Flex w="100%" justifyContent="center" alignItems="center">
-      <HStack w="25%" mt="30px">
-        <Input onChange={(e) => setInput(e.target.value)} value={input} />
-        <Button onClick={handleAddTask}>Add Task</Button>
+      <HStack w="35%" mt="30px">
+        <Input 
+          variant='flushed'
+          onChange={(e) => setInput(e.target.value)} value={input} />
+        <Button 
+
+          variant='surface'
+          onClick={handleAddTask}>Add Task</Button>
       </HStack>
     </Flex>
   );

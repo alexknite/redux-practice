@@ -4,7 +4,7 @@ import { Footer } from "./Footer";
 
 const Layout = ({ children }) => {
   return (
-    <VStack w="100vw" minH="100vh" bg="#FCFCFC">
+    <VStack w="100vw" minH="100vh">
       <Navbar />
       <Box w="100%">{children}</Box>
       <Footer />
