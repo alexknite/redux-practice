@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createTask, fetchTasks } from "../api/endpoints";
+import { createTask, deleteTask, fetchTasks } from "../api/endpoints";
 
 export const fetchTasksAsync = createAsyncThunk(
   "tasks/fetchTasks",
@@ -17,6 +17,14 @@ export const createTaskAsync = createAsyncThunk(
   },
 );
 
+export const deleteTaskAsync = createAsyncThunk(
+  "tasks/deleteTask",
+  async (id) => {
+    await deleteTask(id);
+    return id;
+  },
+);
+
 const initialState = {
   tasks: [],
   loading: false,
@@ -26,13 +34,9 @@ const initialState = {
 const taskSlice = createSlice({
   name: "tasks",
   initialState: initialState,
-  reducers: {
-    removeTask: (state, action) => {
-      state.tasks = state.tasks.filter((t) => t.id !== action.payload);
-    },
-  },
   extraReducers: (builder) => {
     builder
+      // Handle fetching tasks
       .addCase(fetchTasksAsync.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -45,6 +49,8 @@ const taskSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+
+      // Handle creating tasks
       .addCase(createTaskAsync.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -54,6 +60,20 @@ const taskSlice = createSlice({
         state.tasks.push(action.payload);
       })
       .addCase(createTaskAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // Handle deleting tasks
+      .addCase(deleteTaskAsync.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteTaskAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+      })
+      .addCase(deleteTaskAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

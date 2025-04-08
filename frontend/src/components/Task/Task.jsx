@@ -7,18 +7,19 @@ import {
   useEditable,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { removeTask } from "../../redux/taskSlice";
+import { deleteTaskAsync } from "../../redux/taskSlice";
 
 import { LuCheck, LuX } from "react-icons/lu";
 
 const Task = ({ id, description }) => {
+  const dispatch = useDispatch();
+
   const input = useEditable({
     defaultValue: description,
   });
 
-  const dispatch = useDispatch();
   const handleRemoveTask = () => {
-    dispatch(removeTask(id));
+    dispatch(deleteTaskAsync(id));
   };
 
   return (

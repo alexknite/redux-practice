@@ -12,3 +12,8 @@ export const createTask = async (description) => {
   });
   return res.data;
 };
+
+export const deleteTask = async (id) => {
+  const res = await axios.delete(`${SERVER_URL}/tasks/${id}/`);
+  return res.data;
+};
