@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Task from "./Task";
 import { fetchTasksAsync } from "../../redux/taskSlice";
+import Loading from "../Layout/Loading";
 
 const TaskList = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const TaskList = () => {
   }, [dispatch]);
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <Loading />
   }
 
   if (error) {
