@@ -26,7 +26,12 @@ const TaskList = () => {
       <VStack gap="20px" wrap="wrap">
         {tasks.length > 0 ? (
           tasks.map((t) => (
-            <Task key={`task-${t.id}`} id={t.id} description={t.description} />
+            <Task
+              key={`task-${t.id}`}
+              id={t.id}
+              description={t.description}
+              completed={t.completed}
+            />
           ))
         ) : (
           <Text>No tasks</Text>

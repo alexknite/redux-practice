@@ -1,14 +1,15 @@
-import { Card, CloseButton, Editable, IconButton } from "@chakra-ui/react";
+import { Card, Editable, HStack, IconButton } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { deleteTaskAsync, updateTaskAsync } from "../../redux/taskSlice";
 
-import { LuCheck, LuX } from "react-icons/lu";
+import { LuCheck, LuTrash } from "react-icons/lu";
 import { useState } from "react";
 
-const Task = ({ id, description }) => {
+const Task = ({ id, description, completed }) => {
   const dispatch = useDispatch();
 
   const [input, setInput] = useState(description);
+  const [checked, setChecked] = useState(completed);
 
   const handleRemoveTask = () => {
     dispatch(deleteTaskAsync(id));
@@ -26,6 +27,13 @@ const Task = ({ id, description }) => {
     }
   };
 
+  const handleCompleteTask = () => {
+    setChecked(!checked);
+
+    const values = { completed: !checked };
+    dispatch(updateTaskAsync({ id, values }));
+  };
+
   return (
     <Card.Root
       width="500px"
@@ -33,17 +41,14 @@ const Task = ({ id, description }) => {
       variant="elevated"
       position="relative"
     >
-      {input.editing ? (
-        <></>
-      ) : (
-        <CloseButton
-          position="absolute"
-          top="10px"
-          right="10px"
-          onClick={handleRemoveTask}
-        />
-      )}
-
+      <HStack position="absolute" top="10px" right="10px">
+        <IconButton variant="ghost">
+          <LuCheck onClick={handleCompleteTask} />
+        </IconButton>
+        <IconButton variant="ghost">
+          <LuTrash onClick={handleRemoveTask} />
+        </IconButton>
+      </HStack>
       <Card.Body
         w="100%"
         h="100%"
@@ -53,35 +58,26 @@ const Task = ({ id, description }) => {
       >
         <Card.Title textAlign="center">
           <Editable.Root
+            disabled={checked}
             value={input}
             onValueChange={(e) => setInput(e.value)}
             onValueCommit={handleUpdateTask}
-            submitMode="none"
           >
             <Editable.Preview
               whiteSpace="normal"
               wordBreak="break-word"
               minW="0"
+              textDecoration={checked ? "line-through" : "none"}
+              color={checked ? "gray.500" : ""}
             />
-            <Editable.Textarea
+
+            <Editable.Input
               whiteSpace="normal"
               wordBreak="break-word"
               minW="0"
               overflow="hidden"
               resize="none"
             />
-            <Editable.Control>
-              <Editable.CancelTrigger asChild>
-                <IconButton variant="outline" size="xs">
-                  <LuX />
-                </IconButton>
-              </Editable.CancelTrigger>
-              <Editable.SubmitTrigger asChild>
-                <IconButton variant="outline" size="xs">
-                  <LuCheck />
-                </IconButton>
-              </Editable.SubmitTrigger>
-            </Editable.Control>
           </Editable.Root>
         </Card.Title>
       </Card.Body>
